@@ -1,0 +1,6 @@
+star-wars:
+  url: https://swapi.dev/api
+  character:
+    url: ${star-wars.url}/people
+  film:
+    url: ${star-wars.url}/films
