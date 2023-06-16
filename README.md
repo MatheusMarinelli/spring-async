@@ -3,15 +3,16 @@
 
 <h3>Descrição</h3>
 
-<p>Este projeto tem como objetivo mostrar as diferenças de performance entre chamadas síncronas e assíncronas</p>
-<p>Para realizar as chamadas foi utilizado o webservice <i><b>SWAPI</b> <a>[https://swapi.dev/]</a></i></p>
+Este projeto tem como objetivo mostrar as diferenças de performance entre chamadas síncronas e assíncronas
+Para realizar as chamadas foi utilizado o webservice [SWAPI](https://swapi.dev/)
 
 <h3>Recursos Consumidos</h3>
-* `/people/{id}` (Personagens)
-* `/films/{id}` (Filmes)
+
+* [Personagens](https://swapi.dev/documentation#people)
+* [Filmes](https://swapi.dev/documentation#films)
 
 <h3>Artefatos úteis</h3>
-* Swagger <a>localhost:8080/swagger-ui/index.html</a>
+* [Swagger](localhost:8080/swagger-ui/index.html)
 
 
 <h3>Configurações das Threads</h3>
