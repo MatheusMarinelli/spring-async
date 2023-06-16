@@ -12,7 +12,7 @@ Para realizar as chamadas foi utilizado o webservice [SWAPI](https://swapi.dev/)
 * [Filmes](https://swapi.dev/documentation#films)
 
 <h3>Artefatos úteis</h3>
-* [Swagger](localhost:8080/swagger-ui/index.html)
+* [Swagger](http://localhost:8080/swagger-ui/index.html)
 
 
 <h3>Configurações das Threads</h3>
