@@ -4,3 +4,9 @@ star-wars:
     url: ${star-wars.url}/people
   film:
     url: ${star-wars.url}/films
+
+springdoc:
+  api-docs:
+    path: /swagger
+  swagger-ui:
+    path: /swagger-ui

@@ -15,7 +15,7 @@ public class CharacterController {
     @Autowired
     private CharacterService characterService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/character/{id}")
     public ResponseEntity<StarWarsCharacter> searchEveryCharacterData(@PathVariable String id,
                                                                       @RequestHeader("request-type") String requestType) {
         return ResponseEntity.ok(characterService.searchCharacterData(id,requestType));
