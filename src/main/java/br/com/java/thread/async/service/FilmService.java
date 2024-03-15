@@ -4,6 +4,8 @@ import br.com.java.thread.async.domain.StarWarsFilm;
 import br.com.java.thread.async.feign.StarWarsFilmClient;
 import br.com.java.thread.async.helper.request.AsyncRequest;
 import br.com.java.thread.async.helper.request.SyncRequest;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,10 @@ public class FilmService {
     @Autowired
     private SyncRequest syncRequest;
 
-    public StarWarsFilm getFilm(Integer id, String requestType) {
+
+    @TimeLimiter(name = "default")
+    @Bulkhead(name = "default", type = Bulkhead.Type.THREADPOOL)
+    public CompletableFuture<StarWarsFilm> getFilm(Integer id, String requestType) {
         StarWarsFilm filmSpecs = client.getFilmSpecs(id);
 
         List<String> characters = filmSpecs.getCharacters();
@@ -58,7 +63,7 @@ public class FilmService {
             log.info("Total of requests {}", urls.size());
         }
 
-        return filmSpecs;
+        return CompletableFuture.completedFuture(filmSpecs);
     }
 
     public void searchForSpecs(List<String> urls) throws ExecutionException, InterruptedException {

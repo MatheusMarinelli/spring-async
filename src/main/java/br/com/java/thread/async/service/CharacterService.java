@@ -4,6 +4,8 @@ import br.com.java.thread.async.domain.StarWarsCharacter;
 import br.com.java.thread.async.feign.StarWarsCharacterClient;
 import br.com.java.thread.async.helper.request.AsyncRequest;
 import br.com.java.thread.async.helper.request.SyncRequest;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,10 @@ public class CharacterService {
     @Autowired
     private SyncRequest syncRequest;
 
-    public StarWarsCharacter searchCharacterData(String id, String requestType) {
+
+    @TimeLimiter(name = "default")
+    @Bulkhead(name = "default", type = Bulkhead.Type.THREADPOOL)
+    public CompletableFuture<StarWarsCharacter> searchCharacterData(String id, String requestType) {
 
         StarWarsCharacter characterSpecs = client.getCharacterSpecs(Integer.parseInt(id));
         List<String> films = characterSpecs.getFilms();
@@ -55,7 +60,7 @@ public class CharacterService {
             log.info("Finishing sync requests at {}", LocalDateTime.now());
         }
 
-        return characterSpecs;
+        return CompletableFuture.completedFuture(characterSpecs);
 
     }
 

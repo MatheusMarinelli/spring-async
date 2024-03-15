@@ -10,3 +10,10 @@ springdoc:
     path: /swagger
   swagger-ui:
     path: /swagger-ui
+
+resilience4j:
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 7s
+        cancelRunningFuture: true

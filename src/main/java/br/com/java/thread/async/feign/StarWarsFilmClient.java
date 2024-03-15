@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "star-wars-film-api", url = "${star-wars.film.url}")
 public interface StarWarsFilmClient {
 
-    //todo resilience4j
     @GetMapping("/{id}")
     StarWarsFilm getFilmSpecs(@PathVariable Integer id);
 

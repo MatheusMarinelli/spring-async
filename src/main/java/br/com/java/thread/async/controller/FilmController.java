@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.ExecutionException;
+
 @RestController
 public class FilmController {
 
@@ -17,8 +19,8 @@ public class FilmController {
 
     @GetMapping("/film/{id}")
     public ResponseEntity<StarWarsFilm> getFilm(@PathVariable Integer id,
-                                                @RequestHeader("request-type") String requestType) {
-        return ResponseEntity.ok(service.getFilm(id,requestType));
+                                                @RequestHeader("request-type") String requestType) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(service.getFilm(id,requestType).get());
     }
 
 }
