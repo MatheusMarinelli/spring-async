@@ -12,8 +12,32 @@ springdoc:
     path: /swagger-ui
 
 resilience4j:
+  # configuração do time limiter
   timelimiter:
     configs:
       default:
-        timeoutDuration: 7s
-        cancelRunningFuture: true
+        timeoutDuration: 7s # tempo limite para completar uma requisição
+        cancelRunningFuture: true # caso passe do tempo acima ele cancela a execuçãoda thread
+  circuitbreaker:
+    configs:
+      default:
+        registerHealthIndicator: true
+        slidingWindowSize: 5 # número de requisições para medir a taxa de erro nas chamadas últimas chamadas realizadas
+        minimumNumberOfCalls: 2 # número mínimo de chamadas antes de abrir/fechar o circuito
+        permittedNumberOfCallsInHalfOpenState: 2 # número permitido de chamadas no estado meio aberto
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 50
+        recordExceptions:
+          # indica quais exceções que podem abrir o circuito
+          - org.springframework.web.client.HttpServerErrorException
+          - java.util.concurrent.TimeoutException
+          - java.io.IOException
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

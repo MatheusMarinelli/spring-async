@@ -5,6 +5,7 @@ import br.com.java.thread.async.feign.StarWarsFilmClient;
 import br.com.java.thread.async.helper.request.AsyncRequest;
 import br.com.java.thread.async.helper.request.SyncRequest;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class FilmService {
     private SyncRequest syncRequest;
 
 
+    @CircuitBreaker(name = "default")
     @TimeLimiter(name = "default")
     @Bulkhead(name = "default", type = Bulkhead.Type.THREADPOOL)
     public CompletableFuture<StarWarsFilm> getFilm(Integer id, String requestType) {
