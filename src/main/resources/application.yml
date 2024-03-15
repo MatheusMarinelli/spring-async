@@ -25,7 +25,7 @@ resilience4j:
         slidingWindowSize: 5 # número de requisições para medir a taxa de erro nas chamadas últimas chamadas realizadas
         minimumNumberOfCalls: 2 # número mínimo de chamadas antes de abrir/fechar o circuito
         permittedNumberOfCallsInHalfOpenState: 2 # número permitido de chamadas no estado meio aberto
-        waitDurationInOpenState: 10s
+        waitDurationInOpenState: 10s # reinicia o estado para 'Closed' após o tempo informado
         failureRateThreshold: 50
         recordExceptions:
           # indica quais exceções que podem abrir o circuito
@@ -37,7 +37,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: '*' # expondo todos os endpoints disponíveis do Spring Actuator
   endpoint:
     health:
       show-details: always
