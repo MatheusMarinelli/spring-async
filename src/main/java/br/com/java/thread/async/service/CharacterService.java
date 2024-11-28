@@ -5,6 +5,7 @@ import br.com.java.thread.async.feign.StarWarsCharacterClient;
 import br.com.java.thread.async.helper.request.AsyncRequest;
 import br.com.java.thread.async.helper.request.SyncRequest;
 import io.github.resilience4j.bulkhead.annotation.Bulkhead;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ public class CharacterService {
 
 
     @TimeLimiter(name = "default")
+    @CircuitBreaker(name = "default", fallbackMethod = "searchCharacterDataFallback")
     @Bulkhead(name = "default", type = Bulkhead.Type.THREADPOOL)
     public CompletableFuture<StarWarsCharacter> searchCharacterData(String id, String requestType) {
 
@@ -62,6 +64,19 @@ public class CharacterService {
 
         return CompletableFuture.completedFuture(characterSpecs);
 
+    }
+
+    /**
+     *
+     * Caso a API do SWAPI esteja fora do ar, o fallback será acionado
+     *
+     * @param id
+     * @param requestType
+     * @param e
+     * @return
+     */
+    public CompletableFuture<StarWarsCharacter> searchCharacterDataFallback(String id, String requestType, Exception e) {
+        return CompletableFuture.failedFuture(new RuntimeException("Falha na integração com a API externa"));
     }
 
 
