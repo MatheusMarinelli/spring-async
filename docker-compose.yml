@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  application:
+    #build:
+      #context: . # se estivesse no docker hub seria apenas colocar a config 'image: <imagem>'
+    image: spring-async:1.0
+    ports:
+      - "8080:8080" # expondo o container na porta 8080
